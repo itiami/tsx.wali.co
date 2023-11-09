@@ -4,51 +4,68 @@ import { connectDB, closeConnection, connStatus } from "../_con/dbcon";
 
 // find() .. return an Array..
 export const findAllByQuery = async (mainEntity: Model<any>, query: any) => {
-    await connectDB();
-    const data = await mainEntity.find(query).exec();
-    await closeConnection();
-    return data;
-}
+    let conStatus: any = "";
+    await connectDB().then((results) => {
+        conStatus = results;
+    })
 
-
-// findOne() .. return an Object..
-export const findOne = async (mainEntity: Model<any>, query: FilterQuery<any>, joinTbl?: string) => {
-
-    if (joinTbl) {
-        await connectDB();
-        const data = await mainEntity.findOne(query).populate(joinTbl).exec();
+    if (conStatus !== "" && conStatus === 1) {
+        // CRUD Logic.. Here
+        const data = await mainEntity.find(query).exec();
         await closeConnection();
         return data;
     } else {
-        await connectDB();
-        const data = await mainEntity.findOne(query).exec();
-        await closeConnection();
-        return data;
+        return (conStatus);
+    }
+}
+
+
+// findOne() .. return an Object.. if josinTbl then populate..
+export const findOne = async (mainEntity: Model<any>, query: FilterQuery<any>, joinTbl?: string) => {
+    let conStatus: any = "";
+    await connectDB().then((results) => {
+        conStatus = results;
+    })
+
+    if (conStatus !== "" && conStatus === 1) {
+        // CRUD Logic.. Here
+        if (joinTbl) {
+            const data = await mainEntity.findOne(query).populate(joinTbl).exec();
+            await closeConnection();
+            return data;
+        } else {
+            const data = await mainEntity.findOne(query).exec();
+            await closeConnection();
+            return data;
+        }
+
+    } else {
+        return (conStatus);
     }
 
-
 }
 
-
-// findOne() .. return an Object..
-export const findOneAndPopulate = async (mainEntity: Model<any>, query: FilterQuery<any>, joinTbl: string) => {
-    await connectDB();
-    const data = await mainEntity.findOne(query).populate(joinTbl).exec();
-    await closeConnection();
-    return data;
-}
 
 
 // Create new - this can create duplicate example products
 export const create = async (mainEntity: Model<any>, doc: Document) => {
-    await connectDB();
-    //console.log(await connStatus()); // 1 connected
-    const newDoc: Document = new mainEntity(doc);
-    const result = await newDoc.save();
-    await closeConnection();
-    //console.log(await connStatus()); // 0 disconnected
-    return result;
+    let conStatus: any = "";
+    await connectDB().then((results) => {
+        conStatus = results;
+    })
+
+    if (conStatus !== "" && conStatus === 1) {
+        // CRUD Logic.. Here
+        const newDoc: Document = new mainEntity(doc);
+        const result = await newDoc.save();
+        await closeConnection();
+        return result;
+    } else {
+        return (conStatus);
+    }
 }
+
+
 
 /* Note - this createIfNotExists() fun store data in a variable doc:any
 Means all the return value i.e "Exists" and result from try block and all the returns of objects form
@@ -56,29 +73,42 @@ catch(error) block of the createIfNotExists() will be stored in the doc:any vari
 */
 // verify and create - example to create category or user profile casue duplicate not allowed
 export const createIfNotExists = async (mainEntity: Model<any>, query: FilterQuery<any>, doc: Document) => {
-    await connectDB();
-    const isExists = await mainEntity.findOne(query).exec();
+    let conStatus: any = "";
+    await connectDB().then((results) => {
+        conStatus = results;
+    })
 
-    try {
-        if (isExists) {
-            console.log("Document Exists..");
-            return "Exists";
-        } else {
-            const newDoc: Document = new mainEntity(doc);
-            const result = await newDoc.save();
-            await closeConnection();
-            return newDoc
+    if (conStatus !== "" && conStatus === 1) {
+        // CRUD Logic.. Here
+        const isExists = await mainEntity.findOne(query).exec();
+
+        try {
+            if (isExists) {
+                console.log("Document Exists..");
+                return "Exists";
+            } else {
+                const newDoc: Document = new mainEntity(doc);
+                const result = await newDoc.save();
+                await closeConnection();
+                return result
+            }
+        } catch (error: any) {
+            if (error.code === 1000) {
+                
+            }
+            return ({
+                message: error.message,
+                code: error.code,
+                index: error.index,
+                keyPattern: error.keyPattern,
+                keyValue: error.keyValue,
+            });
         }
-    } catch (error: any) {
-        //return (error.message);
-        return ({
-            message: error.message,
-            code: error.code,
-            index: error.index,
-            keyPattern: error.keyPattern,
-            keyValue: error.keyValue,
-        });
+
+    } else {
+        return (conStatus);
     }
+
 }
 
 

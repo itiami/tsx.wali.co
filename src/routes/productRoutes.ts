@@ -8,6 +8,13 @@ import * as ProductCtrl from '../controllers/ProductController';
 const router: Router = Router();
 
 
+router.get("/test", async (req: Request, res: Response) => {
+    const data = await productTbl.find({}).exec();
+    res.status(201).json(data);
+})
+
+
+
 // find() - findAll if rq.body is empty
 router.get("/", async (req: Request, res: Response) => {
     const data: Array<any> = await GenericController.findAllByQuery(productTbl, {});

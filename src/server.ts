@@ -7,9 +7,9 @@ import productRoutes from './routes/productRoutes';
 import tutoRoutes from './routes/tutoRoutes';
 import randomApiData from './routes/apiRandomDataRoutes'
 import dotenv from "dotenv";
+dotenv.config();
 import cors from "cors";
 
-dotenv.config();
 
 const app = express();
 

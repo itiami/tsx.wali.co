@@ -18,11 +18,6 @@ router.get("/", async (req: Request, res: Response) => {
 router.post("/findSimilar", async (req: Request, res: Response) => {
     const reqPayload = req.body.filter;
     const data = await GenericController.findAllByQuery(catTbl, reqPayload);
-    data.forEach(el => {
-        console.log(el.mainCat);
-        console.log(el.subCat);
-        console.log(el.childCat_1);
-    })
     res.status(200).json(data);
 })
 
