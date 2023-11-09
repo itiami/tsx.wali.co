@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express TypeScript</title>
+    <link rel="stylesheet" href="/css/static.css">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <h3 class="pageTitle paraTitle">Welcome to Express with TypeScript Tuto & Project</h3>
+    <div class="content">
+        <h4>Important Links..</h4>
+        <ul>
+            <li>
+                <a href="/random">Random User Data from https://randomuser.me/</a>
+            </li>
+            <li>
+                <a href="/tuto">OS, Process, fs.read(), fs.readFile(), fs.write() etc</a>
+            </li>
+            <li>
+                Project: <a href="/api/profile">/api/profile</a>
+            </li>
+            <li>
+                Project: <a href="/api/user">/api/user</a>
+            </li>
+            <li>
+                Project: <a href="/api/product">/api/product</a>
+            </li>
+            <li>
+                Project: <a href="/api/category">/api/category</a>
+            </li>
+            <li>
+                Project: <a href="#">/api/orders</a>
+            </li>
+            <li>
+                Project: <a href="#">/api/cart</a>
+            </li>
+            <li>
+                Project: <a href="#">/api/reviews</a>
+            </li>
+        </ul>
+        <hr>
+        <div>
+            <h4 class="paraTitle">Postman Implementation: </h4>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Postman Collection Request</th>
+                        <th>Postman Request Link</th>
+                        <th>Postman Body</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GET</td>
+                        <td>
+                            <a href="/api/profile">{{SERVER_HOST}}:{{SERVER_PORT}}/api/profile</a>
+                        </td>
+                        <td>
+                            <pre>{}</pre>
+                        </td>
+                    </tr>
+                    <tr class="active-row">
+                        <td>POST</td>
+                        <td>
+                            <a href="/api/profile">{{SERVER_HOST}}:{{SERVER_PORT}}/api/profile</a>
+                        </td>
+                        <td class="asCode">
+                            <pre id="asJson"></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>
+                            <a href="/api/profile/findOne">{{SERVER_HOST}}:{{SERVER_PORT}}/api/profile/findOne</a>
+                        </td>
+                        <td>
+                            <pre id="asJson">{}</pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>PUT</td>
+                        <td>
+                            <a href="/api/profile/">{{SERVER_HOST}}:{{SERVER_PORT}}/api/profile/</a>
+                        </td>
+                        <td>
+                            <pre id="asJson">{}</pre>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="/js/scritpt.js"></script>
+</body>
+
+</html>

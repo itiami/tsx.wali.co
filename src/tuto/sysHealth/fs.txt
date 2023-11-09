@@ -1,0 +1,67 @@
+Memory Usage Information:
+Total Memory: 7914 MB
+Used Memory: 2738 MB
+Free Memory: 1974 MB
+Memory Usage: 34.60%
+Buffers Memory: 3201 MB
+Cached Memory: 4840 MB
+Available Memory (Free + Buffers/Cache): 4840 MB
+Memory Usage Details:
+              total        used        free      shared  buff/cache   available
+Mem:           7914        2738        1974          28        3201        4841
+Swap:          3906           0        3906
+Memory Usage:
+              total        used        free      shared  buff/cache   available
+Mem:          7.7Gi       2.7Gi       1.9Gi        28Mi       3.1Gi       4.7Gi
+Swap:         3.8Gi          0B       3.8Gi
+
+Top 5 Process Usage:
+    PID    PPID CMD                         %MEM %CPU
+ 177763  177762 ng serve --host ng.wali.co   7.0  0.7
+   2366    2312 /root/.vscode-server/bin/d0  4.9 16.8
+   2312    2126 /root/.vscode-server/bin/d0  3.5  1.4
+ 191383  191382 node /var/www/tsex.wali.co/  3.3  102
+   2648    2312 /root/.vscode-server/data/U  3.1  0.0
+
+Hard Disk Usage:
+Filesystem                         Size  Used Avail Use% Mounted on
+udev                               3.9G     0  3.9G   0% /dev
+tmpfs                              792M  1.6M  790M   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv   39G   35G  2.4G  94% /
+tmpfs                              3.9G   44K  3.9G   1% /dev/shm
+tmpfs                              5.0M     0  5.0M   0% /run/lock
+tmpfs                              3.9G     0  3.9G   0% /sys/fs/cgroup
+/dev/loop0                          56M   56M     0 100% /snap/core18/2790
+/dev/loop2                         206M  206M     0 100% /snap/flutter/130
+/dev/loop1                          56M   56M     0 100% /snap/core18/2796
+/dev/loop3                          64M   64M     0 100% /snap/core20/1623
+/dev/sda2                          974M  209M  698M  24% /boot
+/dev/loop4                          64M   64M     0 100% /snap/core20/2015
+/dev/loop5                         207M  207M     0 100% /snap/flutter/141
+/dev/loop6                          68M   68M     0 100% /snap/lxd/22753
+/dev/loop7                          92M   92M     0 100% /snap/lxd/24061
+/dev/loop8                          41M   41M     0 100% /snap/snapd/20092
+/dev/loop9                          41M   41M     0 100% /snap/snapd/20290
+tmpfs                              792M     0  792M   0% /run/user/0
+
+Listening Ports:
+tcp        0      0 127.0.0.1:35407         0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:3090            0.0.0.0:*               LISTEN     
+tcp        0      0 172.17.0.1:53           0.0.0.0:*               LISTEN     
+tcp        0      0 192.168.1.96:53         0.0.0.0:*               LISTEN     
+tcp        0      0 192.168.1.200:53        0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:5432            0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:5433          0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:953           0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:46023         0.0.0.0:*               LISTEN     
+tcp        0      0 192.168.1.200:4200      0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:27017           0.0.0.0:*               LISTEN     
+tcp6       0      0 :::80                   :::*                    LISTEN     
+tcp6       0      0 fe80::20c:29ff:feff::53 :::*                    LISTEN     
+tcp6       0      0 ::1:53                  :::*                    LISTEN     
+tcp6       0      0 :::5432                 :::*                    LISTEN     
+tcp6       0      0 ::1:953                 :::*                    LISTEN     
+tcp6       0      0 :::443                  :::*                    LISTEN     

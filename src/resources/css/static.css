@@ -1,0 +1,73 @@
+@import url(https://fonts.googleapis.com/css?family=Nova+Round:regular);
+
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&family=Neucha&family=Roboto&display=swap");
+@import url("https://fonts.cdnfonts.com/css/jetbrains-mono");
+body {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  font-family: "Neucha", cursive;
+  font-family: "Roboto", sans-serif;
+}
+
+.pageTitle {
+  text-align: center;
+}
+
+.paraTitle {
+  font-family: "Nova Round";
+}
+
+.styled-table a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.styled-table {
+  font-family: "JetBrains Mono", sans-serif;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.asCode {
+  text-align: left;
+  background-color: rgb(10, 10, 10);
+  color: whitesmoke;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+pre {
+  font-family: "JetBrains Mono", sans-serif;
+  /*   font-size: 14px; */
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: center;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}
