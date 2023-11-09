@@ -1,4 +1,9 @@
 import mongoose, { MongooseError } from 'mongoose';
+import dotenv from "dotenv";
+import { ConnectionOptions } from 'tls';
+dotenv.config();
+
+
 
 export const connectDB = async () => {
 
@@ -6,7 +11,11 @@ export const connectDB = async () => {
         `${process.env.__MONGODB_PASS}@${process.env.__MONGODB_HOST}:` +
         `${process.env.__MONGODB_PORT}/${process.env.__MONGODB_DB}`;
 
-    return await mongoose.connect(MONGODB_URI, {})
+    return await mongoose
+        .connect(MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        } as ConnectionOptions)
         .then((success) => {
             return success.connection.readyState; // return 0,1,2,3, or 99
         })
