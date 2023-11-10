@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import userRoutes from './routes/userRoutes';
 import profileRoutes from './routes/profileRoutes';
@@ -6,6 +6,7 @@ import categoryRoutes from './routes/categoryRoutes';
 import productRoutes from './routes/productRoutes';
 import tutoRoutes from './routes/tutoRoutes';
 import randomApiData from './routes/apiRandomDataRoutes'
+
 import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
@@ -18,6 +19,7 @@ const HOST = "0.0.0.0";
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
+
 
 
 app.use(
@@ -44,7 +46,6 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/category', categoryRoutes);
-
 
 
 app.listen(PORT, HOST, () => {
