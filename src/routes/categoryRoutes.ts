@@ -81,23 +81,12 @@ router.post("/", async (req: Request, res: Response) => {
 
 // createDuplicate
 router.post("/createDuplicate", async (req: Request, res: Response) => {
-
     const newCat: ICat = new catTbl(req.body.filter);
-
     const doc: any = await GenericController.createEvenExists(catTbl, newCat);
-
-    if (doc.code === 1100) {
-        res.status(404).json({
-            message: doc.message,
-            code: doc.code,
-            index: doc.index,
-            keyPattern: doc.keyPattern,
-            keyValue: doc.keyValue,
-        });
-    }
-    else {
-        console.log("New Document has Created. ID: ", doc);
-        res.status(200).json(doc);
+    if (doc.code === 11000) {
+        res.status(409).json(doc)
+    } else {
+        res.status(201).json(doc)
     }
 })
 
