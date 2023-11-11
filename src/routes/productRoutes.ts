@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import * as GenericController from "../controllers/GenericController";
 import productTbl, { IProduct } from '../models/Product';
 import * as ProductCtrl from '../controllers/ProductController';
+import catTbl from '../models/Category';
 
 
 
@@ -47,7 +48,6 @@ router.post("/count", async (req: Request, res: Response) => {
 
 
 
-
 /* Note - this fundAndCreate() fun store data in a variable doc:any
 Means all the return value i.e "Exists" and result from try block and all the returns of objects form
 catch(error) block of the fundAndCreate() will be stored in the doc:any variable.. 
@@ -77,10 +77,22 @@ router.post("/", async (req: Request, res: Response) => {
 })
 
 
-
 // create product by category ID
 router.post("/byCatID", ProductCtrl.createByCatID);
 
+
+router.post("/findAndCreate", async (req: Request, res: Response) => {
+    
+    const doc: any = await GenericController.findAndCreate(
+        productTbl, req.body.productTbl,
+        catTbl, req.body.catTbl, "product"
+    );
+
+    console.log(doc);
+    res.send(doc._id);
+
+
+})
 
 
 

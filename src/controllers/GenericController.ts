@@ -145,6 +145,41 @@ export const createEvenExists = async (mainEntity: Model<any>, doc: Document) =>
 }
 
 
+// findAndUpdate - 2 obj in req.body qury and update..
+export const findAndCreate = async (
+    mainEntity: Model<any>, qrMainEntity: FilterQuery<any>,
+    joinEntity: Model<any>, qrJoinEntity: FilterQuery<any>, propertyName?: any,
+) => {
+    let conStatus: any = "";
+    await connectDB().then((results) => {
+        conStatus = results;
+    })
+
+    if (conStatus !== "" && conStatus === 1) {
+        // CRUD Logic.. Here
+
+        const joinTbl: Document = await joinEntity.findOne(qrJoinEntity).exec();
+
+        if (joinTbl?._id !== undefined && joinTbl?._id !== null) {
+            const newItem: Document = await mainEntity.create(qrMainEntity);
+            const prod: any[] = joinTbl.get(propertyName);
+            prod?.push(newItem._id);
+            await newItem.save();
+            await joinTbl.save();
+            return ({
+                newItem: newItem,
+                joinItemId: joinTbl._id
+            })
+        } else {
+            return ("Category Not Found..")
+        }
+        return joinTbl;
+
+
+    } else {
+        return (conStatus);
+    }
+}
 
 
 // findAndUpdate - 2 obj in req.body qury and update..
@@ -168,8 +203,6 @@ export const findAndUpdate = async (mainEntity: Model<any>, query: FilterQuery<a
     } else {
         return (conStatus);
     }
-
-
 }
 
 

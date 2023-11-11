@@ -29,11 +29,9 @@ router.get("/delFiles", fsReadWriteDelete.delFiles);
 // Tuto -  how to pass json in req.body
 router.post("/reqBody", reqBody.nestedJson_4)
 
-
 // Tuto - Async/Wait and Promise
 router.get("/timeOut", asyncTest.timeOut);
 router.get("/async", asyncTest.testAsync);
 router.get("/promise", asyncTest.newPromise);
-
 
 export default router;

@@ -91,11 +91,6 @@ router.post("/createDuplicate", async (req: Request, res: Response) => {
 })
 
 
-
-
-
-
-
 // findByIdAndUpdate
 /*  in postman
 {
