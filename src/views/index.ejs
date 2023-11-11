@@ -45,6 +45,15 @@
                 <li>
                     Project: <a href="#">/api/reviews</a>
                 </li>
+                <li>
+                    Project: <a href="/tuto/timeOut">/tuto/timeOut</a>
+                </li>
+                <li>
+                    Project: <a href="/tuto/async">/tuto/async</a>
+                </li>
+                <li>
+                    Project: <a href="/tuto/promise">/tuto/promise</a>
+                </li>
             </ul>
         </div>
 
@@ -75,27 +84,20 @@
                             <a href="/api/profile">{{SERVER_HOST}}:{{SERVER_PORT}}/api/profile</a>
                         </td>
                         <td class="asCode">
-                            <pre id="asJson"></pre>
+                            <pre class="asJson" id="createProduct"></pre>
                         </td>
                     </tr>
                     <tr>
                         <td>POST</td>
                         <td>
-                            <a href="/api/profile/findOne">{{SERVER_HOST}}:{{SERVER_PORT}}/api/profile/findOne</a>
+                            <a
+                                href="/api/profile/findAndCreate">{{SERVER_HOST}}:{{SERVER_PORT}}/api/profile/findAndCreate</a>
                         </td>
-                        <td>
-                            <pre id="asJson">{}</pre>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>PUT</td>
-                        <td>
-                            <a href="/api/profile/">{{SERVER_HOST}}:{{SERVER_PORT}}/api/profile/</a>
-                        </td>
-                        <td>
-                            <pre id="asJson">{}</pre>
+                        <td class="asCode">
+                            <pre class="asJson" id="findInCatAndCreateProd"></pre>
                         </td>
                     </tr>
+
                 </tbody>
             </table>
         </div>

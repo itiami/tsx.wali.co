@@ -7,10 +7,9 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-.contentMargins{
+.contentMargins {
   margin: 0px 30px;
 }
-
 
 .pageTitle {
   text-align: center;
@@ -22,7 +21,6 @@ body {
 
 .styled-table a {
   text-decoration: none;
-  color: inherit;
 }
 
 .styled-table {

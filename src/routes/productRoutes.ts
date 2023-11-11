@@ -35,7 +35,11 @@ router.post("/findSimilar", async (req: Request, res: Response) => {
 router.post("/findOne", async (req: Request, res: Response) => {
     const reqPayload = req.body.filter;
     const data: IProduct = await GenericController.findOne(productTbl, reqPayload, "categoryId");
-    res.status(200).json(data);
+    if (data) {
+        res.status(201).json(data);
+    } else {
+        res.status(404).json("Not Exists");
+    }
 })
 
 
@@ -79,23 +83,6 @@ router.post("/", async (req: Request, res: Response) => {
 
 // create product by category ID
 router.post("/byCatID", ProductCtrl.createByCatID);
-
-
-router.post("/findAndCreate", async (req: Request, res: Response) => {
-    
-    const doc: any = await GenericController.findAndCreate(
-        productTbl, req.body.productTbl,
-        catTbl, req.body.catTbl, "product"
-    );
-
-    console.log(doc);
-    res.send(doc._id);
-
-
-})
-
-
-
 
 
 // createDuplIProducte
@@ -218,6 +205,11 @@ router.delete("/delMulti", async (req: Request, res: Response) => {
     }
 
 })
+
+// Delete product form productTbl and remove from catTbl..
+router.post("/delProd", ProductCtrl.delProdAndFromCatList);
+
+
 
 export default router;
 

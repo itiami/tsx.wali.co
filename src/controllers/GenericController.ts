@@ -9,12 +9,12 @@ export const findAllByQuery = async (mainEntity: Model<any>, query: any) => {
         conStatus = results;  // returns if mongoose.connect() error
     })
 
-    if (conStatus !== "" && conStatus === 1) {
+    if (conStatus !== "" && conStatus === 1) { // if db connected
         // CRUD Logic.. Here
         const data = await mainEntity.find(query).exec();
         await closeConnection();
         return data;
-    } else {
+    } else { // connection error - error message
         return (conStatus);
     }
 }
@@ -27,7 +27,7 @@ export const findOne = async (mainEntity: Model<any>, query: FilterQuery<any>, j
         conStatus = results;  // returns if mongoose.connect() error
     })
 
-    if (conStatus !== "" && conStatus === 1) {
+    if (conStatus !== "" && conStatus === 1) { // if db connected
         // CRUD Logic.. Here
         if (joinTbl) {
             const data = await mainEntity.findOne(query).populate(joinTbl).exec();
@@ -39,7 +39,7 @@ export const findOne = async (mainEntity: Model<any>, query: FilterQuery<any>, j
             return data;
         }
 
-    } else {
+    } else { // connection error - error message
         return (conStatus);
     }
 
@@ -54,13 +54,13 @@ export const create = async (mainEntity: Model<any>, doc: Document) => {
         conStatus = results;  // returns if mongoose.connect() error
     })
 
-    if (conStatus !== "" && conStatus === 1) {
+    if (conStatus !== "" && conStatus === 1) { // if db connected
         // CRUD Logic.. Here
         const newDoc: Document = new mainEntity(doc);
         const result = await newDoc.save();
         await closeConnection();
         return result;
-    } else {
+    } else { // connection error - error message
         return (conStatus);
     }
 }
@@ -78,7 +78,7 @@ export const createIfNotExists = async (mainEntity: Model<any>, query: FilterQue
         conStatus = results;  // returns if mongoose.connect() error
     })
 
-    if (conStatus !== "" && conStatus === 1) {
+    if (conStatus !== "" && conStatus === 1) { // if db connected
         // CRUD Logic.. Here
         const isExists = await mainEntity.findOne(query).exec();
 
@@ -105,7 +105,7 @@ export const createIfNotExists = async (mainEntity: Model<any>, query: FilterQue
             });
         }
 
-    } else {
+    } else { // connection error - error message
         return (conStatus);
     }
 
@@ -121,7 +121,7 @@ export const createEvenExists = async (mainEntity: Model<any>, doc: Document) =>
         conStatus = results;  // returns if mongoose.connect() error
     })
 
-    if (conStatus !== "" && conStatus === 1) {
+    if (conStatus !== "" && conStatus === 1) { // if db connected
         // here this try catch important case its returns  E11000 duplicate error
         try {
             const newDoc: Document = new mainEntity(doc);
@@ -138,47 +138,10 @@ export const createEvenExists = async (mainEntity: Model<any>, doc: Document) =>
             });
         }
 
-    } else {
+    } else { // connection error - error message
         return (conStatus);
     }
 
-}
-
-
-// findAndUpdate - 2 obj in req.body qury and update..
-export const findAndCreate = async (
-    mainEntity: Model<any>, qrMainEntity: FilterQuery<any>,
-    joinEntity: Model<any>, qrJoinEntity: FilterQuery<any>, propertyName?: any,
-) => {
-    let conStatus: any = "";
-    await connectDB().then((results) => {
-        conStatus = results;
-    })
-
-    if (conStatus !== "" && conStatus === 1) {
-        // CRUD Logic.. Here
-
-        const joinTbl: Document = await joinEntity.findOne(qrJoinEntity).exec();
-
-        if (joinTbl?._id !== undefined && joinTbl?._id !== null) {
-            const newItem: Document = await mainEntity.create(qrMainEntity);
-            const prod: any[] = joinTbl.get(propertyName);
-            prod?.push(newItem._id);
-            await newItem.save();
-            await joinTbl.save();
-            return ({
-                newItem: newItem,
-                joinItemId: joinTbl._id
-            })
-        } else {
-            return ("Category Not Found..")
-        }
-        return joinTbl;
-
-
-    } else {
-        return (conStatus);
-    }
 }
 
 
@@ -189,7 +152,7 @@ export const findAndUpdate = async (mainEntity: Model<any>, query: FilterQuery<a
         conStatus = results;
     })
 
-    if (conStatus !== "" && conStatus === 1) {
+    if (conStatus !== "" && conStatus === 1) { // if db connected
         // CRUD Logic.. Here
         const row = await mainEntity.findOne(query);
         if (row) {
@@ -200,7 +163,7 @@ export const findAndUpdate = async (mainEntity: Model<any>, query: FilterQuery<a
             return "Document Not Found"
         }
 
-    } else {
+    } else { // connection error - error message
         return (conStatus);
     }
 }
@@ -214,7 +177,7 @@ export const updateMany = async (mainEntity: Model<any>, query: FilterQuery<any>
         conStatus = results;
     })
 
-    if (conStatus !== "" && conStatus === 1) {
+    if (conStatus !== "" && conStatus === 1) { // if db connected
         // CRUD Logic.. Here
         const row = await mainEntity.findOne(query);
         if (row) {
@@ -225,7 +188,7 @@ export const updateMany = async (mainEntity: Model<any>, query: FilterQuery<any>
             return "Document Not Found"
         }
 
-    } else {
+    } else { // connection error - error message
         return (conStatus);
     }
 
@@ -241,13 +204,13 @@ export const deleteByID = async (mainEntity: Model<any>, query: FilterQuery<any>
         conStatus = results;
     })
 
-    if (conStatus !== "" && conStatus === 1) {
+    if (conStatus !== "" && conStatus === 1) { // if db connected
         // CRUD Logic.. Here
 
-        const doc: Document | null = await mainEntity.findOne(query);
+        const doc: Document = await mainEntity.findOne(query).exec();
 
         if (doc) {
-            const data = await mainEntity.findByIdAndDelete(doc._id);
+            const data = await mainEntity.findByIdAndDelete(doc._id).exec();
             await closeConnection();
             console.log("Document deleted. ID: ", doc._id);
             return data;
@@ -256,7 +219,7 @@ export const deleteByID = async (mainEntity: Model<any>, query: FilterQuery<any>
             return "Document not found"
         }
 
-    } else {
+    } else { // connection error - error message
         return (conStatus);
     }
 }
@@ -269,9 +232,9 @@ export const deleteMulti = async (mainEntity: Model<any>, query: FilterQuery<any
         conStatus = results;
     })
 
-    if (conStatus !== "" && conStatus === 1) {
+    if (conStatus !== "" && conStatus === 1) { // if db connected
         // CRUD Logic.. Here       
-        const data = await mainEntity.find(query);
+        const data = await mainEntity.find(query).exec();
         if (data) {
             await mainEntity.deleteMany(query).exec()
             await closeConnection();
@@ -283,7 +246,7 @@ export const deleteMulti = async (mainEntity: Model<any>, query: FilterQuery<any
             return "No Data Found"
         }
 
-    } else {
+    } else { // connection error - error message
         return (conStatus);
     }
 }
@@ -297,11 +260,11 @@ export const countDocs = async (model: Model<any>, query: FilterQuery<any>) => {
         conStatus = results;
     })
 
-    if (conStatus !== "" && conStatus === 1) {
+    if (conStatus !== "" && conStatus === 1) { // if db connected
         // CRUD Logic.. Here
         const count = await model.count(query); // will be deprecated cause - could potentially return a metadata count from the storage 
-        const countDocs = await model.countDocuments(query); // count based on query. but if query empty returns total..
-        const estimatedDocs = await model.estimatedDocumentCount(); // for Total count
+        const countDocs = await model.countDocuments(query).exec(); // count based on query. but if query empty returns total..
+        const estimatedDocs = await model.estimatedDocumentCount().exec(); // for Total count
         await closeConnection();
         return ({
             total: count,
@@ -309,7 +272,7 @@ export const countDocs = async (model: Model<any>, query: FilterQuery<any>) => {
             estimatedDocumentCount: estimatedDocs
         });
 
-    } else {
+    } else { // connection error - error message
         return (conStatus);
     }
 

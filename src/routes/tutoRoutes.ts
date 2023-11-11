@@ -20,6 +20,7 @@ router.get("/execFile", childProcess.processExecFile);
 router.get("/dnsLookup", osNet.dnsLookup);
 router.get("/netLookup", osNet.netLookup);
 router.get("/sysDetail", osNet.sysDetail);
+router.get("/performance", osNet.nPerformance);
 
 // Tuto -  how to pass json in req.body
 router.get("/readFile", fsReadWriteDelete.readFile);

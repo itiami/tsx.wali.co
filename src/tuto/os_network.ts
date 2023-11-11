@@ -4,6 +4,7 @@ import dns, { ADDRCONFIG, Resolver, V4MAPPED } from "node:dns";
 import net from 'node:net';
 import os, { NetworkInterfaceInfo } from 'node:os';
 
+
 export const dnsLookup = async (req: Request, res: Response) => {
     const addr: string[] = await dns.getServers(); //"192.168.1.1"
     const resolver: dns.Resolver = new dns.Resolver();
@@ -74,4 +75,13 @@ export const sysDetail = async (req: Request, res: Response) => {
         userHomeDir: os.userInfo().homedir,
         pid: os.getPriority(),
     })
+}
+
+
+export const nPerformance = async (req: Request, res: Response) => {
+    res.status(201).json({
+        timenowIn_ms: (performance.now() % 1000).toFixed(3),
+        browser_agent: req.headers["user-agent"],
+        host: req.headers.host
+    });
 }

@@ -1,8 +1,5 @@
 import { Request, Response } from "express";
 import axios from "axios";
-import { resolve } from "path";
-import { rejects } from "assert";
-import { error } from "console";
 
 
 function timeIn3decimal() {
@@ -10,7 +7,7 @@ function timeIn3decimal() {
     const now = new Date();
 
     // Format the date and time in Paris timezone
-    const parisTime = new Intl.DateTimeFormat('en-US', {
+    const parisTime = new Intl.DateTimeFormat('fr-FR', {
         timeZone: 'Europe/Paris',
         year: 'numeric',
         month: '2-digit',
@@ -28,12 +25,12 @@ function timeIn3decimal() {
     return `${parisTime}.${milliseconds.split('.')[1]}`;
 }
 
-const startTime = timeIn3decimal();
 
 
 export const timeOut = async (req: Request, res: Response) => {
     console.log("\n");
-    console.log("Time Before : ", startTime);
+
+    console.log("Time Before : ", timeIn3decimal());
 
     setTimeout(() => {
         console.log("Time Inside: ", timeIn3decimal());
@@ -55,7 +52,7 @@ Time Inside:  11/10/2023, 19:22:34.522
 // pushing the asyncWaitFn() to the browser
 export const testAsync = async (req: Request, res: Response) => {
     console.log("\n");
-    console.log("Time Before asios.get(): ", startTime);
+    console.log("Time Before asios.get(): ", timeIn3decimal());
     asyncWaitFn().then(data => {
         console.log(data)
         res.status(201).json(data)
@@ -90,7 +87,7 @@ async function asyncWaitFn() {
 
 export const newPromise = async (req: Request, res: Response) => {
     console.log("\n");
-    console.log("Time before axios.get(): ", startTime);
+    console.log("Time before axios.get(): ", timeIn3decimal());
     let promise = new Promise((resolve, rejects) => {
         asyncWaitFn().then((dt: any) => {
             if (dt.message === "Unable to fetch") {
