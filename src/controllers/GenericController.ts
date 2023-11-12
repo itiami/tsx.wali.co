@@ -279,7 +279,7 @@ export const countDocs = async (model: Model<any>, query: FilterQuery<any>) => {
 
 
 // Delete documents and update OneToMany 
-export const deleteAndUpdate = async (mainTbl: Model<any>, query: FilterQuery<any>, mappedTbl: Model<any>,) => {
+export const deleteAndUpdate = async (mainTbl: Model<any>, query: FilterQuery<any>, mappedTbl: Model<any>, schemaName: string) => {
     let conStatus: any = "";
     await connectDB().then((results) => {
         conStatus = results;
@@ -290,16 +290,18 @@ export const deleteAndUpdate = async (mainTbl: Model<any>, query: FilterQuery<an
         const mainTblDoc: Document = await mainTbl.findOne(query).exec();
         const mainTblSchema = mainTblDoc.schema.paths["categoryId"].path; // categoryId
         const mappedTblDoc: Document = await mappedTbl.findById(mainTblDoc.get(mainTblSchema)).exec();
-        const mappedTblSchema = mappedTblDoc.schema.paths["product"].path; // product
+        //const mappedTblSchema = mappedTblDoc.schema.paths["product"].path; 
+        // to get Schema Propertiy .. output product
 
         // to set Object key from a variable
-        const variableValue = mappedTblSchema;
+        const variableValue = schemaName;
         const jsonObject = {
             [variableValue]: mainTblDoc._id,
         };
 
         //console.log(jsonObject); // { product: new ObjectId("654ffeafecdc1a01fea0e652") }
         //console.log({ _id: mainTblDoc.get(mainTblSchema) }); // { _id: new ObjectId("654f8540045eb4bc7293f6eb") }
+        const obj: any = Object.values(mappedTblDoc)[2]; // output will be the array 
 
 
         const delMainTblDoc = await mainTbl.deleteOne(query).exec();
@@ -308,7 +310,7 @@ export const deleteAndUpdate = async (mainTbl: Model<any>, query: FilterQuery<an
                 { _id: mainTblDoc.get(mainTblSchema) },
                 {
                     $pull: jsonObject,
-                    $set: { __v: Object.values(mappedTblDoc)[2].product.length - 1 }
+                    $set: { __v: obj[schemaName].length - 1 } // this will count the number of arry then update __v
 
                 }
             ).exec();
