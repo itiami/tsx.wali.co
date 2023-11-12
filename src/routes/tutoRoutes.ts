@@ -26,6 +26,7 @@ router.get("/performance", osNet.nPerformance);
 router.get("/readFile", fsReadWriteDelete.readFile);
 router.get("/writeFile", fsReadWriteDelete.writeToFile);
 router.get("/delFiles", fsReadWriteDelete.delFiles);
+router.get("/createIface", fsReadWriteDelete.createInterface);
 
 // Tuto -  how to pass json in req.body
 router.post("/reqBody", reqBody.nestedJson_4)

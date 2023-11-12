@@ -7,10 +7,8 @@ import { closeConnection, connStatus, connectDB } from '../_con/dbcon';
 
 
 export const createByCatID = async (req: Request, res: Response) => {
-    let conStatus: any = "";
-    await connectDB().then((results) => {
-        conStatus = results;
-    })
+    let conStatus: any = '';
+    await connectDB().then(results => (conStatus = results))
 
     if (conStatus !== "" && conStatus === 1) {
         // CRUD Logic.. Here

@@ -9,9 +9,6 @@ export interface IOrder extends Document {
     productId: mongoose.Schema.Types.ObjectId;
 }
 
-
-
-
 const OrderSchema: Schema = new mongoose.Schema(
     {
         orderNo: {

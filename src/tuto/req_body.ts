@@ -22,12 +22,23 @@ import { Request, Response } from "express";
 
 
 export const nestedJson_1 = async (req: Request, res: Response) => {
-    console.log(req.body);
-    console.log(req.body.user.address.city);
-    res.status(200).send(req.body.product.name)
+    const user = req.body.user;
+    const { city } = req.body.user.address;
+    console.log(user);
+    console.log({ city });
 }
 // output..
-// iPhoneX
+/* 
+for user...........
+    {
+    name: 'John Doe',
+    email: 'john@example.com',
+    address: { street: '123 Main St', city: 'Anytown', zipCode: '12345' }
+    }
+for city...............
+    { city: 'Anytown' }
+
+*/
 
 
 export const nestedJson_2 = async (req: Request, res: Response) => {

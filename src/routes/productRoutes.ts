@@ -85,11 +85,12 @@ router.post("/", async (req: Request, res: Response) => {
 router.post("/byCatID", ProductCtrl.createByCatID);
 
 
-
-router.post("/createTest", async (req: Request, res: Response) => {
+// Create doc and update in ref. table - ManyToOne
+router.post("/CrUp", async (req: Request, res: Response) => {
     const filter = req.body.query;
     const create = req.body.createNew;
-    const results = await GenericController.createAndUpdate(catTbl, filter, productTbl, create,
+    const results = await GenericController.createAndUpdate(
+        catTbl, filter, productTbl, create,
         "product", "categoryId");
 
     if (results.code === 400) {
@@ -99,10 +100,6 @@ router.post("/createTest", async (req: Request, res: Response) => {
     } else {
         res.status(201).json(results);
     }
-
-
-
-
 })
 
 

@@ -1,6 +1,6 @@
 import mongoose, { Model, Document, FilterQuery, MongooseError, QueryOptions } from 'mongoose';
 import { connectDB, closeConnection, connStatus } from "../_con/dbcon";
-import { error } from 'node:console';
+
 
 
 // find() .. return an Array..

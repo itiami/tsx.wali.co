@@ -6,6 +6,7 @@ import categoryRoutes from './routes/categoryRoutes';
 import productRoutes from './routes/productRoutes';
 import tutoRoutes from './routes/tutoRoutes';
 import randomApiData from './routes/apiRandomDataRoutes'
+import cartRouter from "./routes/cartRoutes";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -46,6 +47,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/category', categoryRoutes);
+app.use('/api/cart', cartRouter);
 
 
 app.listen(PORT, HOST, () => {

@@ -22,9 +22,7 @@ export const dnsLookup = async (req: Request, res: Response) => {
             Address: address,
             AddressFamily: family
         });
-
     })
-
 }
 
 

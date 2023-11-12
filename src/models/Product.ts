@@ -6,6 +6,7 @@ export interface IProduct extends Document {
     price: string;
     imageUrl: string;
     categoryId: mongoose.Schema.Types.ObjectId;
+    quantity: number;
 }
 
 const ProductSchema: Schema = new Schema({
@@ -17,7 +18,8 @@ const ProductSchema: Schema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "ts_category",
         require: true
-    }
+    },
+    quantity: { type: Number, required: true, min: 1 },
 
 });
 

@@ -1,10 +1,9 @@
+import { connectDB } from '../_con/dbcon';
 import { Router, Request, Response, NextFunction } from 'express';
-import mongoose, { Document, MongooseError, MongooseQueryAndDocumentMiddleware, MongooseQueryOrDocumentMiddleware } from 'mongoose';
 import * as GenericController from "../controllers/GenericController";
 import catTbl, { ICat } from '../models/Category';
-import { connectDB } from '../_con/dbcon';
-
 const router: Router = Router();
+
 
 
 // find() - findAll if rq.body is empty
@@ -134,7 +133,6 @@ router.put("/", async (req: Request, res: Response) => {
 
 // UpdateMany
 router.put("/updateMany", async (req: Request, res: Response) => {
-    await connectDB();
     const reqPayload = req.body.filter;
     const updateData = req.body.update;
 

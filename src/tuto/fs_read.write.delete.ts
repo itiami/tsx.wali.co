@@ -91,5 +91,48 @@ export const writeToFile = async (req: Request, res: Response) => {
 }
 
 
+function firstUpper(str: string) {
+    return (str.charAt(0).toUpperCase() + str.slice(1).toLowerCase());
+}
+
+export const createInterface = async (req: Request, res: Response) => {
+    const jsonObject = {
+        modelName: 'user',
+        modelProperties: {
+            id: 'ObjectId',
+            name: 'string',
+            email: 'string'
+        },
+        routerPath: {
+            forGet: '/user/',
+            forPost: '/user/',
+            forDelete: '/user/del',
+            forPUT: '/user/update'
+        }
+    };
+
+    let interfaceContent = `interface I${firstUpper(jsonObject.modelName)} {\n`;
+
+    for (const [key, value] of Object.entries(jsonObject.modelProperties)) {
+        interfaceContent += `  ${key}: ${value};\n`;
+    }
+    interfaceContent += "}\n";
+
+
+    console.log(interfaceContent);
+
+    /* 
+    fs.writeFile('User.ts', interfaceContent, (err) => {
+      if (err) throw err;
+      console.log('The file has been saved!');
+    }); */
+
+
+
+    res.status(201).json('Hello Api..');
+}
+
+
+
 
 
