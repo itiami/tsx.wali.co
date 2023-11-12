@@ -1,5 +1,6 @@
 import mongoose, { Model, Document, FilterQuery, MongooseError, QueryOptions } from 'mongoose';
 import { connectDB, closeConnection, connStatus } from "../_con/dbcon";
+import { error } from 'node:console';
 
 
 // find() .. return an Array..
@@ -114,7 +115,7 @@ export const createIfNotExists = async (mainEntity: Model<any>, query: FilterQue
 
 
 
-// createDuplicate Documents Example this helps to create products even exists but not for Category
+// createDuplicate Documents Example this helps to create products even exists but should not for tbl example Category
 export const createEvenExists = async (mainEntity: Model<any>, doc: Document) => {
     let conStatus: any = "";
     await connectDB().then((results) => {
@@ -141,11 +142,22 @@ export const createEvenExists = async (mainEntity: Model<any>, doc: Document) =>
     } else { // connection error - error message
         return (conStatus);
     }
+}
+
+
+
+// Create - OneToMany and ManyToOne update. means create product and update Category entity product array..
+export const createAndUpdate = async (mainEntity: Model<any>, query: FilterQuery<any>, update?: FilterQuery<any>, options?: QueryOptions) => {
 
 }
 
 
-// findAndUpdate - 2 obj in req.body qury and update..
+
+
+
+
+
+// findAndUpdate document - there will be two nested object in req.body -> query and update..
 export const findAndUpdate = async (mainEntity: Model<any>, query: FilterQuery<any>, update?: FilterQuery<any>, options?: QueryOptions) => {
     let conStatus: any = "";
     await connectDB().then((results) => {
@@ -171,7 +183,9 @@ export const findAndUpdate = async (mainEntity: Model<any>, query: FilterQuery<a
 
 // UpdateMany - 
 // findAndUpdate - 2 obj in req.body qury and update..
-export const updateMany = async (mainEntity: Model<any>, query: FilterQuery<any>, update?: FilterQuery<any>, options?: QueryOptions) => {
+export const updateMany = async (mainEntity: Model<any>, query: FilterQuery<any>,
+    update?: FilterQuery<any>, options?: QueryOptions) => {
+
     let conStatus: any = "";
     await connectDB().then((results) => {
         conStatus = results;
@@ -279,7 +293,10 @@ export const countDocs = async (model: Model<any>, query: FilterQuery<any>) => {
 
 
 // Delete documents and update OneToMany 
-export const deleteAndUpdate = async (mainTbl: Model<any>, query: FilterQuery<any>, mappedTbl: Model<any>, schemaName: string) => {
+export const deleteAndUpdate = async (mainTbl: Model<any>,
+    query: FilterQuery<any>, mappedTbl: Model<any>,
+    schemaName: string) => {
+
     let conStatus: any = "";
     await connectDB().then((results) => {
         conStatus = results;
@@ -288,49 +305,59 @@ export const deleteAndUpdate = async (mainTbl: Model<any>, query: FilterQuery<an
     if (conStatus !== "" && conStatus === 1) { // if db connected
         // CRUD Logic.. Here
         const mainTblDoc: Document = await mainTbl.findOne(query).exec();
-        const mainTblSchema = mainTblDoc.schema.paths["categoryId"].path; // categoryId
-        const mappedTblDoc: Document = await mappedTbl.findById(mainTblDoc.get(mainTblSchema)).exec();
-        //const mappedTblSchema = mappedTblDoc.schema.paths["product"].path; 
-        // to get Schema Propertiy .. output product
 
-        // to set Object key from a variable
-        const variableValue = schemaName;
-        const jsonObject = {
-            [variableValue]: mainTblDoc._id,
-        };
+        if (query) {
+            if (mainTblDoc) {
+                const mainTblSchema = mainTblDoc.schema.paths["categoryId"].path; // categoryId
+                const mappedTblDoc: Document = await mappedTbl.findById(mainTblDoc.get(mainTblSchema)).exec();
+                //const mappedTblSchema = mappedTblDoc.schema.paths["product"].path; 
+                // to get Schema Propertiy .. output product
 
-        //console.log(jsonObject); // { product: new ObjectId("654ffeafecdc1a01fea0e652") }
-        //console.log({ _id: mainTblDoc.get(mainTblSchema) }); // { _id: new ObjectId("654f8540045eb4bc7293f6eb") }
-        const obj: any = Object.values(mappedTblDoc)[2]; // output will be the array 
+                // to set Object key from a variable
+                const variableValue = schemaName;
+                const jsonObject = {
+                    [variableValue]: mainTblDoc._id,
+                };
+
+                //console.log(jsonObject); // { product: new ObjectId("654ffeafecdc1a01fea0e652") }
+                //console.log({ _id: mainTblDoc.get(mainTblSchema) }); // { _id: new ObjectId("654f8540045eb4bc7293f6eb") }
+                const obj: any = Object.values(mappedTblDoc)[2]; // output will be the array 
 
 
-        const delMainTblDoc = await mainTbl.deleteOne(query).exec();
-        if (delMainTblDoc.deletedCount > 0) {
-            const updateMappedTbl = await mappedTbl.updateOne(
-                { _id: mainTblDoc.get(mainTblSchema) },
-                {
-                    $pull: jsonObject,
-                    $set: { __v: obj[schemaName].length - 1 } // this will count the number of arry then update __v
+                const delMainTblDoc = await mainTbl.deleteOne(query).exec();
+                const updateMappedTbl = await mappedTbl.updateOne(
+                    { _id: mainTblDoc.get(mainTblSchema) },
+                    {
+                        $pull: jsonObject,
+                        $set: { __v: obj[schemaName].length - 1 } // this will count the number of arry then update __v
 
-                }
-            ).exec();
+                    }
+                ).exec();
 
-            console.log({
-                mainTbl: delMainTblDoc,
-                mappedTbl: updateMappedTbl
-            });
+                console.log({
+                    mainTbl: delMainTblDoc,
+                    mappedTbl: updateMappedTbl
+                });
 
-            return ({
-                mainTbl: delMainTblDoc,
-                mappedTbl: updateMappedTbl
-            })
+                return ({
+                    message: {
+                        mainTbl: delMainTblDoc,
+                        mappedTbl: updateMappedTbl
+                    },
+                    code: 201
+                })
+            } else {
+                return ({
+                    message: "Document Not Found",
+                    code: 404
+                })
+            }
         } else {
-            return "wrong..";
+            return ({
+                message: "Please verify the Request Body",
+                code: 400
+            })
         }
-
-
-
-
     } else { // connection error - error message
         return (conStatus);
     }

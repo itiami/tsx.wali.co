@@ -210,8 +210,15 @@ router.delete("/delMulti", async (req: Request, res: Response) => {
 router.post("/delProd", ProductCtrl.delProdAndFromCatList);
 
 router.post("/delAnUpdate", async (req: Request, res: Response) => {
-    const dt = await GenericController.deleteAndUpdate(productTbl, req.body.query, catTbl, "product");
-    res.send(dt);
+    const filter = req.body.query;
+    const results = await GenericController.deleteAndUpdate(productTbl, filter, catTbl, "product");
+    if (results.code === 400) {
+        res.status(400).json(results);
+    } else if (results.code === 404) {
+        res.status(404).json(results);
+    } else {
+        res.status(201).json(results);
+    }
 });
 
 
