@@ -253,7 +253,6 @@ export const deleteMulti = async (mainEntity: Model<any>, query: FilterQuery<any
 
 
 // count total documents..
-
 export const countDocs = async (model: Model<any>, query: FilterQuery<any>) => {
     let conStatus: any = "";
     await connectDB().then((results) => {
@@ -275,6 +274,62 @@ export const countDocs = async (model: Model<any>, query: FilterQuery<any>) => {
     } else { // connection error - error message
         return (conStatus);
     }
+}
 
 
+
+// Delete documents and update OneToMany 
+export const deleteAndUpdate = async (mainTbl: Model<any>, query: FilterQuery<any>, mappedTbl: Model<any>,) => {
+    let conStatus: any = "";
+    await connectDB().then((results) => {
+        conStatus = results;
+    })
+
+    if (conStatus !== "" && conStatus === 1) { // if db connected
+        // CRUD Logic.. Here
+        const mainTblDoc: Document = await mainTbl.findOne(query).exec();
+        const mainTblSchema = mainTblDoc.schema.paths["categoryId"].path; // categoryId
+        const mappedTblDoc: Document = await mappedTbl.findById(mainTblDoc.get(mainTblSchema)).exec();
+        const mappedTblSchema = mappedTblDoc.schema.paths["product"].path; // product
+
+        // to set Object key from a variable
+        const variableValue = mappedTblSchema;
+        const jsonObject = {
+            [variableValue]: mainTblDoc._id,
+        };
+
+        //console.log(jsonObject); // { product: new ObjectId("654ffeafecdc1a01fea0e652") }
+        //console.log({ _id: mainTblDoc.get(mainTblSchema) }); // { _id: new ObjectId("654f8540045eb4bc7293f6eb") }
+
+
+        const delMainTblDoc = await mainTbl.deleteOne(query).exec();
+        if (delMainTblDoc.deletedCount > 0) {
+            const updateMappedTbl = await mappedTbl.updateOne(
+                { _id: mainTblDoc.get(mainTblSchema) },
+                {
+                    $pull: jsonObject,
+                    $set: { __v: Object.values(mappedTblDoc)[2].product.length - 1 }
+
+                }
+            ).exec();
+
+            console.log({
+                mainTbl: delMainTblDoc,
+                mappedTbl: updateMappedTbl
+            });
+
+            return ({
+                mainTbl: delMainTblDoc,
+                mappedTbl: updateMappedTbl
+            })
+        } else {
+            return "wrong..";
+        }
+
+
+
+
+    } else { // connection error - error message
+        return (conStatus);
+    }
 }

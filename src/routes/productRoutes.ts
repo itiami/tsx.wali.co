@@ -209,6 +209,11 @@ router.delete("/delMulti", async (req: Request, res: Response) => {
 // Delete product form productTbl and remove from catTbl..
 router.post("/delProd", ProductCtrl.delProdAndFromCatList);
 
+router.post("/delAnUpdate", async (req: Request, res: Response) => {
+    const dt = await GenericController.deleteAndUpdate(productTbl, req.body.query, catTbl);
+    res.send(dt);
+});
+
 
 
 export default router;

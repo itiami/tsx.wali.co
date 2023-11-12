@@ -24,7 +24,7 @@ const ProductSchema: Schema = new Schema({
 
 ProductSchema.set("collection", "ts_product")
 
-const productTbl = mongoose.model<IProduct>('ts_productSchema', ProductSchema);
+const productTbl = mongoose.model<IProduct>('ts_product', ProductSchema);
 
 export {
     productTbl as default

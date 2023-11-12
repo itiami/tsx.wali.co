@@ -16,6 +16,7 @@ export const createByCatID = async (req: Request, res: Response) => {
         // CRUD Logic.. Here
         const category = await catTbl.findOne(req.body.findInModel).exec();
 
+
         if (category?._id !== undefined && category?._id !== null) {
             console.log("CategoryID: ", category?._id);
 
@@ -54,16 +55,15 @@ export const delProdAndFromCatList = async (req: Request, res: Response) => {
         const category = await catTbl.findById(doc?.categoryId).exec();
         const delProd = await productTbl.deleteOne(req.body.query).exec();
 
+        console.log({ product: doc?._id }); // { product: new ObjectId("654ffeafecdc1a01fea0e652") }
+        console.log({ _id: doc?.categoryId }); // { _id: new ObjectId("654f8540045eb4bc7293f6eb") }
+
         if (delProd.deletedCount > 0) {
             const updateCat = await catTbl.updateOne(
                 { _id: doc?.categoryId },
                 {
-                    $pull: {
-                        product: doc?._id
-                    },
-                    $set: {
-                        __v: category && category.product.length - 1
-                    }
+                    $pull: { product: doc?._id },
+                    $set: { __v: category && category.product.length - 1 }
                 }
             ).exec();
 
