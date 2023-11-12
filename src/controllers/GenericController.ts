@@ -147,8 +147,68 @@ export const createEvenExists = async (mainEntity: Model<any>, doc: Document) =>
 
 
 // Create - OneToMany and ManyToOne update. means create product and update Category entity product array..
-export const createAndUpdate = async (mainEntity: Model<any>, query: FilterQuery<any>, update?: FilterQuery<any>, options?: QueryOptions) => {
+export const createAndUpdate = async (mappedTbl: Model<any>,
+    query: FilterQuery<any>, mainTbl: Model<any>,
+    createObj: FilterQuery<any>, schPropsNameMainTbl: string, schPropsNameMappedTbl: string) => {
 
+    let conStatus: any = "";
+    await connectDB().then((results) => {
+        conStatus = results;
+    })
+
+    if (conStatus !== "" && conStatus === 1) { // if db connected
+        // CRUD Logic.. Here
+        const mappedTblDoc: Document = await mappedTbl.findOne(query).exec();
+
+        if (query) {
+            if (mappedTblDoc._id !== undefined && mappedTblDoc._id !== null) {
+                const newDoc: any = await mainTbl.create(createObj);
+
+                const mappedArr: any = Object.values(mappedTblDoc)[2];
+                //console.log(schPropsNameMainTbl); // product
+
+                // this tergets - product array in category Schema Model
+                // category.product.push()                 
+                mappedArr[schPropsNameMainTbl].push(newDoc._id);
+
+                newDoc[schPropsNameMappedTbl] = await mappedTblDoc._id;
+
+                const savedDoc = await newDoc.save().then((results: any) => {
+                    return ({
+                        message: results,
+                        code: 201
+                    })
+                }).catch((error: any) => {
+                    return ({
+                        message: error,
+                        code: 400
+                    })
+                })
+
+                const updateMappedDoc = await mappedTblDoc.save();
+
+                await closeConnection();
+
+                return ({
+                    newDoc: savedDoc,
+                    updateDoc: updateMappedDoc
+                });
+
+            } else {
+                return ({
+                    message: "Document Not Found",
+                    code: 404
+                })
+            }
+        } else {
+            return ({
+                message: "Please verify the Request Body",
+                code: 400
+            })
+        }
+    } else { // connection error - error message
+        return (conStatus);
+    }
 }
 
 
@@ -333,6 +393,8 @@ export const deleteAndUpdate = async (mainTbl: Model<any>,
 
                     }
                 ).exec();
+
+                await closeConnection();
 
                 console.log({
                     mainTbl: delMainTblDoc,

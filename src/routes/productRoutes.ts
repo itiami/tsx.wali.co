@@ -85,6 +85,23 @@ router.post("/", async (req: Request, res: Response) => {
 router.post("/byCatID", ProductCtrl.createByCatID);
 
 
+
+router.post("/createTest", async (req: Request, res: Response) => {
+    const filter = req.body.query;
+    const create = req.body.createNew;
+    const results = await GenericController.createAndUpdate(catTbl, filter, productTbl, create,
+        "product", "categoryId");
+
+    res.status(201).json(results);
+    //res.status(404).json(results);
+
+
+})
+
+
+
+
+
 // createDuplIProducte
 router.post("/createDuplIProducte", async (req: Request, res: Response) => {
 
@@ -211,7 +228,9 @@ router.post("/delProd", ProductCtrl.delProdAndFromCatList);
 
 router.post("/delAnUpdate", async (req: Request, res: Response) => {
     const filter = req.body.query;
-    const results = await GenericController.deleteAndUpdate(productTbl, filter, catTbl, "product");
+    const results = await GenericController.deleteAndUpdate(
+        productTbl, filter, catTbl, "product");
+
     if (results.code === 400) {
         res.status(400).json(results);
     } else if (results.code === 404) {

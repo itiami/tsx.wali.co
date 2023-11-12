@@ -18,7 +18,7 @@ export const createByCatID = async (req: Request, res: Response) => {
 
 
         if (category?._id !== undefined && category?._id !== null) {
-            console.log("CategoryID: ", category?._id);
+            //console.log("CategoryID: ", category?._id);
 
             const newProduct: IProduct = await productTbl.create(req.body.createNew);
 
