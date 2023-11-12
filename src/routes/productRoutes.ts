@@ -92,8 +92,15 @@ router.post("/createTest", async (req: Request, res: Response) => {
     const results = await GenericController.createAndUpdate(catTbl, filter, productTbl, create,
         "product", "categoryId");
 
-    res.status(201).json(results);
-    //res.status(404).json(results);
+    if (results.code === 400) {
+        res.status(400).json(results);
+    } else if (results.code === 404) {
+        res.status(404).json(results)
+    } else {
+        res.status(201).json(results);
+    }
+
+
 
 
 })

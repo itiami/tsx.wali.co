@@ -1,0 +1,17 @@
+[01;34m.[00m
+├── package.json
+├── package-lock.json
+├── README.md
+├── [01;34msrc[00m
+│   ├── [01;34m_con[00m
+│   ├── [01;34mcontrollers[00m
+│   ├── [01;34mmiddleware[00m
+│   ├── [01;34mmodels[00m
+│   ├── [01;34mresources[00m
+│   ├── [01;34mroutes[00m
+│   ├── server.ts
+│   ├── [01;34mtuto[00m
+│   └── [01;34mviews[00m
+└── tsconfig.json
+
+9 directories, 5 files

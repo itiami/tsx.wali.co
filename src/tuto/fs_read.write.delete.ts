@@ -71,13 +71,20 @@ export const writeToFile = async (req: Request, res: Response) => {
     res.setHeader("content-type", "text/plain");
 
     process.execFile(
-        __dirname + "/sysInfo.sh",
+        __dirname + "/tree.sh",
         (err, stdout, stderr) => {
             if (err) console.log(err);
             if (stderr) console.log(stderr);
             if (stdout) {
-                fs.writeFile(__dirname + "/sysHealth/fs.txt", stdout)
-                res.status(201).send("Output sysHealth/fs.txt: \n\n" + stdout)
+                fs.writeFile(
+                    __dirname + "/sysHealth/tree.txt",
+                    stdout.toString(),
+                    {
+                        encoding: "utf-8"
+                    }
+
+                )
+                res.status(201).send("Output sysHealth/tree.txt: \n\n" + stdout)
             }
         }
     )

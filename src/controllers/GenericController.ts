@@ -160,8 +160,8 @@ export const createAndUpdate = async (mappedTbl: Model<any>,
         // CRUD Logic.. Here
         const mappedTblDoc: Document = await mappedTbl.findOne(query).exec();
 
-        if (query) {
-            if (mappedTblDoc._id !== undefined && mappedTblDoc._id !== null) {
+        if (query && createObj) {
+            if (mappedTblDoc) {
                 const newDoc: any = await mainTbl.create(createObj);
 
                 const mappedArr: any = Object.values(mappedTblDoc)[2];
