@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express';
 import * as GenericController from "../controllers/GenericController";
+import * as userController from '../controllers/UserController';
 import userTbl, { IUser } from '../models/User';
+import { authenticate, accessToken, encorder } from "../middleware/jwt";
 
 const router: Router = Router();
 
@@ -21,11 +23,13 @@ router.post("/findSimilar", async (req: Request, res: Response) => {
 
 
 // findOne() - it returns Only One and most oldest even if there are similar
-router.post("/findOne", async (req: Request, res: Response) => {
+router.post("/findOneGenaric", async (req: Request, res: Response) => {
     const reqPayload = req.body.filter;
     const data: IUser = await GenericController.findOne(userTbl, reqPayload);
     res.status(200).json(data);
 })
+
+router.post("/findOne", userController.findOneReqBody);
 
 
 

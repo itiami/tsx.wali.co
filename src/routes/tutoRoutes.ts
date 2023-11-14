@@ -4,6 +4,7 @@ import * as osNet from '../tuto/os_network';
 import * as fsReadWriteDelete from "../tuto/fs_read.write.delete";
 import * as reqBody from '../tuto/req_body';
 import * as asyncTest from "../tuto/async_promise";
+import * as scrapper from "../tuto/data_scrapper/pupeteer";
 
 
 
@@ -35,5 +36,9 @@ router.post("/reqBody", reqBody.nestedJson_4)
 router.get("/timeOut", asyncTest.timeOut);
 router.get("/async", asyncTest.testAsync);
 router.get("/promise", asyncTest.newPromise);
+
+
+// Web_Data Scrapper
+router.get("/pupeteer", scrapper.byPupeteer);
 
 export default router;

@@ -37,8 +37,15 @@ app.set("view engine", "ejs");
 
 app.use(express.static(__dirname + "/resources"));
 
+
+// render file form views directory
 app.get("/", (req: Request, res: Response) => {
     res.status(201).render("index.ejs")
+})
+
+// render static file from resources..
+app.get("/chaldal", (req: Request, res: Response) => {
+    res.sendFile("/chaldal/fresh_veg.ejs")
 })
 
 app.use('/random', randomApiData);

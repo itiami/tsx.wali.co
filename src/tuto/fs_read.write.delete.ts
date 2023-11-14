@@ -82,7 +82,6 @@ export const writeToFile = async (req: Request, res: Response) => {
                     {
                         encoding: "utf-8"
                     }
-
                 )
                 res.status(201).send("Output sysHealth/tree.txt: \n\n" + stdout)
             }
