@@ -4,7 +4,22 @@
 
 ## Author: ABDULLAH AL Numan
 
----
+```
+ "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts"
+```
+
+## using concurrently
+
+```
+  "scripts": {
+    "test": "echo \"Typescript in Node Express Framework\"",
+    "build": "npx tsc",
+    "backend": "nodemon main.js",
+    "frontend": "cd ../ng.wali.co && ng serve --host ng.wali.co --port 4200",
+    "start": "concurrently \"nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts\" \"cd ../ng.wali.co && ng serve --host ng.wali.co --disable-host-check --ssl true --ssl-cert \"/etc/apache2/ssl/ng_wali_co_certificate.crt --ssl-key \"/etc/apache2/ssl/ng_wali_co_certificate.key\""
+  },
+
+```
 
 ## Project Features
 
