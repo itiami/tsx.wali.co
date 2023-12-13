@@ -1,5 +1,6 @@
 import mongoose, { Model, Document, FilterQuery, MongooseError, QueryOptions } from 'mongoose';
 import { connectDB, closeConnection, connStatus } from "../_con/dbcon";
+import { ICat } from '../models/Category';
 
 
 
@@ -218,7 +219,7 @@ export const createAndUpdate = async (mappedTbl: Model<any>,
 
 
 // findAndUpdate document - there will be two nested object in req.body -> query and update..
-export const findAndUpdate = async (mainEntity: Model<any>, query: FilterQuery<any>, update?: FilterQuery<any>, options?: QueryOptions) => {
+export const findAndUpdate = async (mainEntity: Model<any>, query: FilterQuery<ICat>, update?: FilterQuery<any>, options?: QueryOptions) => {
     let conStatus: any = "";
     await connectDB().then((results) => {
         conStatus = results;

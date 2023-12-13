@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Request, Response, Router } from 'express';
 import path from 'path';
 import userRoutes from './routes/userRoutes';
 import profileRoutes from './routes/profileRoutes';
@@ -56,6 +56,20 @@ app.use('/api/product', productRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/cart', cartRouter);
 
+function availableRoutes(router: Router, routeName: string) {
+    const res = router.stack
+        .filter((r: Router) => r.route)
+        .map((r: any) => {
+            return {
+                method: Object.keys(r.route.methods)[0].toUpperCase(),
+                path: `http://192.168.1.200:${PORT}/${routeName}${r.route.path}`
+            };
+        });
+
+    return { [routeName]: res }
+}
+
+//console.log(JSON.stringify(availableRoutes(tutoRoutes, "tuto"), null, 2));
 
 app.listen(PORT, HOST, () => {
     console.log(`Server is running on port http://${HOST}:${PORT}`);

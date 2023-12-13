@@ -146,27 +146,34 @@ router.post("/createDuplIProducte", async (req: Request, res: Response) => {
     }
 }
 */
-router.put("/", async (req: Request, res: Response) => {
-    const reqPayload = req.body.filter;
+router.put("/update", async (req: Request, res: Response) => {
+    const filter = req.body.filterDoc;
     const updateData = req.body.update;
 
-    const options = {
-        new: true,
-        upsert: true,
-        includeResultMetadata: true,
-    }
+    if (filter !== undefined && updateData !== undefined) {
+        const options = {
+            new: true,
+            upsert: true,
+            includeResultMetadata: true,
+        }
 
-    const doc = await GenericController.findAndUpdate(
-        productTbl,
-        reqPayload,
-        updateData,
-        options
-    );
+        const doc = await GenericController.findAndUpdate(
+            productTbl,
+            filter,
+            updateData,
+            options
+        );
 
-    if (!doc) {
-        return res.status(404).json({ message: 'User not found.' });
+
+        if (!doc) {
+            return res.status(404).json({ message: 'Product not found. Please check the Object Key' });
+        } else {
+            return res.status(200).json(doc);
+        }
     } else {
-        return res.status(200).json(doc);
+        console.log({ message: 'Product not found. Please check the Object Key' });
+
+        return res.status(404).json({ message: 'Product not found. Please check the Object Key' });
     }
 
 })
